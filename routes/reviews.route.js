@@ -4,17 +4,32 @@ var Review = require('../models/review.model');
 var router = express.Router();
 
 router.get('/listing',function(req,res){
-    Review.find({})
-    .populate('book')
-    .populate('user')
-    .exec(function(err,reviews){
-        if(err){
-            res.send('error has occured');
-        }else{
-            res.json(reviews);
-        }
-    });
+    if(req.query.bookId){
+        Review.find({book: req.query.bookId})
+            .populate('book')
+            .populate('user')
+            .exec(function(err,reviews){
+            if(err){
+                res.send(err);
+            }else{
+                res.json(reviews);
+            }
+        });
+    }else{
+        Review.find({})
+            .populate('book')
+            .populate('user')
+            .exec(function(err,reviews){
+                if(err){
+                    res.send(err);
+                }else{
+                    res.json(reviews);
+                }
+        });
+    }
+
 });
+
 
 router.post('/listing',function(req,res){
     
