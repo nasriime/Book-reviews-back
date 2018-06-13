@@ -51,4 +51,3 @@ router.post('/listing',function(req,res){
 
 
 module.exports = router;
-

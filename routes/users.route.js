@@ -37,17 +37,17 @@ router.post('/login', (req, res) => {
   User.findOne({userName:req.body.username})
     .exec(function(err,user){
       if(err){
-        res.send(err);
+        res.send('Invalid username or password');
       }else{
         bcrypt.compare(req.body.password, user.password, function(err, result) {
           if(result){
-            jwt.sign({user}, 'secretkey', { expiresIn: '2 days' }, (err, token) => {
+            jwt.sign({user}, 'secretkey', { expiresIn: '2 days' }, (error, token) => {
               res.json({
                 token
               });
             }); 
           }else{
-            res.status(400).send();
+            res.send('Invalid password');
           }
             
         });
