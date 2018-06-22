@@ -29,5 +29,11 @@ var BookSchema = new Schema({
      }]
 });
 
+BookSchema.methods.addReview = function(review) {
+    this.reviews.push(review);
+    this.save();
+    return true;
+};
+
 
 module.exports = mongoose.model('Book', BookSchema);

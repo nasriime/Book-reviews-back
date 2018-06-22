@@ -1,5 +1,6 @@
 var express = require('express');
 var Review = require('../models/review.model'); 
+var Book = require('../models/book.model'); 
 
 var router = express.Router();
 
@@ -41,11 +42,13 @@ router.post('/listing',function(req,res){
         });
 
         newReview.save(function(err,review){
-            if(err){
-                res.send(err);
-            }else{
-                res.json(review);
-            }
+            if(err) res.send(err);
+            
+            Book.findById(req.body.bookId)
+            .then(function(book){
+                book.addReview(review);
+                return res.json(review);
+            });            
         });
 });
 
